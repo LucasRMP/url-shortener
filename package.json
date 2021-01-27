@@ -3,23 +3,24 @@
   "version": "1.0.0",
   "description": "",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "nodemon --watch 'src/' --exec 'ts-node src/index.ts' -e ts"
+    "build": "npx tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --watch 'src/' --exec 'ts-node src/index.ts' -e ts",
+    "tsc:watch": "nodemon --watch 'src/' --exec 'npx tsc' -e ts"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@types/cors": "^2.8.9",
-    "@types/express": "^4.17.11",
-    "@types/mongodb": "^3.6.3",
-    "@types/mongoose": "^5.10.3",
-    "@types/morgan": "^1.9.2",
-    "mongoose": "^5.11.13",
     "nodemon": "^2.0.7",
     "ts-node": "^9.1.1",
     "tslint": "^6.1.3",
-    "typescript": "^4.1.3"
+    "typescript": "^4.1.3",
+    "@types/cors": "^2.8.9",
+    "@types/express": "^4.17.11",
+    "@types/mongodb": "^3.6.3",
+    "@types/mongoose": "^5.0.3",
+    "@types/morgan": "^1.9.2"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -29,9 +30,9 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "mongodb": "^3.6.3",
+    "mongoose": "^5.11.13",
     "morgan": "^1.10.0",
     "reflect-metadata": "^0.1.13",
-    "routing-controllers": "^0.9.0-alpha.6",
-    "ts-mongoose": "0.0.24"
+    "routing-controllers": "^0.9.0-alpha.6"
   }
 }

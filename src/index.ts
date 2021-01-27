@@ -1,14 +1,13 @@
 import 'dotenv/config'
 import 'reflect-metadata'
-import 'ts-mongoose/plugin'
 
 import express from 'express'
 import cors from 'cors'
 import morgan from 'morgan'
 import bodyParser from 'body-parser'
 import mongoose from 'mongoose'
-import { useExpressServer } from 'routing-controllers'
-import { join } from 'path'
+
+import routes from './routes'
 
 mongoose
   .connect(process.env.MONGODB_URI!, {
@@ -26,10 +25,7 @@ function initialize() {
   app.use(morgan('dev'))
   app.use(cors())
 
-  const appBaseUrl = join(__dirname, 'app')
-  useExpressServer(app, {
-    controllers: [join(appBaseUrl, 'controllers', '*.ts')],
-  })
+  app.use(routes)
 
   const PORT = process.env.PORT || 3333
   app.listen(PORT, () => {

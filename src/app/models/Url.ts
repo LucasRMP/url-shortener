@@ -1,13 +1,15 @@
-import { createSchema, Type, typedModel } from 'ts-mongoose'
+import mongoose, { model, Schema } from 'mongoose'
 
-const UrlSchema = createSchema(
-  {
-    slug: Type.string(),
-    target: Type.string(),
-    visits: Type.number({ default: 0 }),
-  },
-  { timestamps: { createdAt: true } }
-)
+export interface IUrl extends mongoose.Document {
+  slug: string
+  target: string
+  visits: number
+}
 
-const Url = typedModel('Url', UrlSchema, 'url')
-export default Url
+const UrlSchema: Schema = new Schema({
+  slug: { type: String, required: true },
+  target: { type: String, required: true },
+  visits: { type: Number, default: 0 },
+})
+
+export default model<IUrl>('Url', UrlSchema, 'url')

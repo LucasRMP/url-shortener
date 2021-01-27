@@ -1,12 +1,4 @@
-import {
-  Body,
-  Controller,
-  Get,
-  Param,
-  Post,
-  Redirect,
-} from 'routing-controllers'
-
+import { RequestHandler } from 'express'
 import Url from '../models/Url'
 
 interface IUrlCreateInput {
@@ -14,11 +6,16 @@ interface IUrlCreateInput {
   slug?: string
 }
 
-@Controller()
 class UrlController {
-  @Get('/:slug')
-  @Redirect(':url')
-  async redirect(@Param('slug') slug: string) {
+  index: RequestHandler = (_, res) => {
+    return res.json({
+      ok: true,
+    })
+  }
+
+  redirect: RequestHandler = async (req, res) => {
+    const { slug } = req.params
+
     const url = await Url.findOne({ slug })
 
     if (!url) {
@@ -27,15 +24,15 @@ class UrlController {
 
     Url.findOneAndUpdate({ _id: url._id }, { $inc: { visits: 1 } })
 
-    return { url: url.target }
+    return res.redirect(url.target)
   }
 
-  @Post()
-  async store(@Body() body: IUrlCreateInput) {
-    const url = await Url.create(body)
+  store: RequestHandler = async (req, res) => {
+    const body: IUrlCreateInput = req.body
+    const url = await Url.create(body as any)
 
-    return { url: url.toObject() }
+    return res.status(201).json(url)
   }
 }
 
-export default UrlController
+export default new UrlController()
